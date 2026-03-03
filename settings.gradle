@@ -1,0 +1,4 @@
+rootProject.name = "Pop"
+include ':app'
+include ':baselineprofile'
+include ':tv-nav-core'

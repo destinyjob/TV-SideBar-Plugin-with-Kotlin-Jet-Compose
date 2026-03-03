@@ -21,6 +21,32 @@ Most Android TV navigation solutions are either too rigid or lack the polished "
 - **`:tv-nav-core`**: The standalone navigation library containing the sidebar and focus teleportation logic.
 - **`:baselineprofile`**: Performance benchmarking module for generating AOT compilation profiles.
 
+## 🚀 How to Use & Reuse
+
+### 1. Porting to Your Project
+1. Copy the `:tv-nav-core` directory to your project root.
+2. Include it in your `settings.gradle`:
+   ```gradle
+   include ':tv-nav-core'
+   ```
+3. Add the dependency to your app's `build.gradle`:
+   ```gradle
+   implementation project(':tv-nav-core')
+   ```
+
+### 2. Integration
+Implement the `TvNavItem` interface for your routes and pass them into the `TvNavigationFramework`:
+
+```kotlin
+TvNavigationFramework(
+    items = listOf(Home, Movies, Settings),
+    currentItemId = currentRoute,
+    onItemSelected = { item -> /* Handle Navigation */ }
+) { contentModifier ->
+    // Your NavHost or Screen Content here
+}
+```
+
 ## 📈 Performance Tuning (Baseline Profiles)
 
 This project uses **Baseline Profiles** to ensure the best possible performance on TV hardware. 
@@ -29,7 +55,7 @@ This project uses **Baseline Profiles** to ensure the best possible performance 
   ```bash
   ./gradlew :app:generateBaselineProfile
   ```
-- **Why it matters**: On Android TV (especially lower-end devices), JIT (Just-In-Time) compilation can cause "jank" during initial scrolls. Baseline Profiles pre-compile these paths, ensuring a smooth 60PFS experience from the first launch.
+- **Why it matters**: On Android TV (especially lower-end devices), JIT (Just-In-Time) compilation can cause "jank" during initial scrolls. Baseline Profiles pre-compile these paths, ensuring a smooth 60FPS experience from the first launch.
 
 ## 📖 Development Rules
 

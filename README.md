@@ -21,31 +21,19 @@ Most Android TV navigation solutions are either too rigid or lack the polished "
 - **`:tv-nav-core`**: The standalone navigation library containing the sidebar and focus teleportation logic.
 - **`:baselineprofile`**: Performance benchmarking module for generating AOT compilation profiles.
 
-## 🚀 How to Use & Reuse
+## 📈 Performance Tuning (Baseline Profiles)
 
-### 1. Porting to Your Project
-1. Copy the `:tv-nav-core` directory to your project root.
-2. Include it in your `settings.gradle`:
-   ```gradle
-   include ':tv-nav-core'
-   ```
-3. Add the dependency to your app's `build.gradle`:
-   ```gradle
-   implementation project(':tv-nav-core')
-   ```
+This project uses **Baseline Profiles** to ensure the best possible performance on TV hardware. 
+- **Pre-baked Profiles**: The project comes with a generated `baseline-prof.txt` in `app/src/main/`. This means the app is already optimized for standard navigation paths.
+- **Regenerating Profiles**: If you modify the UI or navigation flow significantly, you should regenerate the profile using the `:baselineprofile` module:
+  ```bash
+  ./gradlew :app:generateBaselineProfile
+  ```
+- **Why it matters**: On Android TV (especially lower-end devices), JIT (Just-In-Time) compilation can cause "jank" during initial scrolls. Baseline Profiles pre-compile these paths, ensuring a smooth 60PFS experience from the first launch.
 
-### 2. Integration
-Implement the `TvNavItem` interface for your routes and pass them to the `TvNavigationFramework`:
+## 📖 Development Rules
 
-```kotlin
-TvNavigationFramework(
-    items = listOf(Home, Movies, Settings),
-    currentItemId = currentRoute,
-    onItemSelected = { item -> /* Handle Navigation */ }
-) { contentModifier ->
-    // Your NavHost or Screen Content here
-}
-```
+The [rules.md](file:///rules.md) file in the root directory contains the "Development Bible" for this project. It outlines the specific coding standards, focus management patterns, and UI principles used to maintain cinematic quality. Please refer to it before making major architectural changes.
 
 ## 🛠 How to Improve
 
